@@ -15,7 +15,8 @@ public class Main {
             System.out.println("3 - alterar um item");
             System.out.println("4 - visualizar seu carrinho de compras");
             System.out.println("5 - visualizar total a pagar");
-            System.out.println("6 - sair");
+            System.out.println("6 - aplicar desconto");
+            System.out.println("7 - sair");
             System.out.println("----------------------------------------------");
             try {
                 int escolha = scanner.nextInt();
@@ -91,6 +92,21 @@ public class Main {
                         System.out.println("Total a Pagar: " + totalAPagar);
                         break;
                     case 6:
+                        try {
+                            System.out.print("Digite o valor do desconto: ");
+                            float desconto = scanner.nextFloat();
+                            float totalAntesDoDesconto = calcularTotalAPagar(carrinhoDeCompras);
+                            float totalComDesconto = totalAntesDoDesconto - desconto;
+                            if (totalComDesconto < 0) {
+                                System.out.println("O desconto resultaria em um total negativo. O desconto não foi aplicado.");
+                            } else {
+                                System.out.println("Total com Desconto: " + totalComDesconto);
+                            }
+                        } catch (Exception e) {
+                            System.out.println("Valor de desconto inválido.");
+                        }
+                        break;
+                    case 7:
                         scanner.close();
                         return;
                     default:
