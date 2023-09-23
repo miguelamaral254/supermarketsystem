@@ -22,34 +22,28 @@ public class Main {
                 int escolha = scanner.nextInt();
                 switch (escolha) {
                     case 1:
-                        try {
-                            System.out.print("Nome do item: ");
-                            scanner.nextLine(); // Consume newline
-                            String nome = scanner.nextLine();
-                            System.out.print("Preço do item: ");
-                            float preco = scanner.nextFloat();
-                            Item item = new Item(nome, preco);
-                            carrinhoDeCompras.put(nome, item);
-                            System.out.println(nome + " foi adicionado ao carrinho de compras!");
-                        } catch (Exception e) {
-                            System.out.println("Houve um erro e o item não foi adicionado.");
-                        }
+                        System.out.print("Nome do item: ");
+                        scanner.nextLine();
+                        String nome = scanner.nextLine();
+                        System.out.print("Preço do item: ");
+                        float preco = scanner.nextFloat();
+                        Item item = new Item(nome, preco);
+                        carrinhoDeCompras.put(nome, item);
+                        System.out.println(nome + " foi adicionado ao carrinho de compras!");
                         break;
                     case 2:
-                        try {
-                            System.out.print("Nome do item que deseja remover: ");
-                            scanner.nextLine(); // Consume newline
-                            String nomeToRemove = scanner.nextLine();
-                            carrinhoDeCompras.remove(nomeToRemove);
-                            System.out.println("Item removido com sucesso!");
-                        } catch (Exception e) {
-                            System.out.println("Não foi possível remover o item pois ele não existe.");
-                        }
+                        System.out.print("Nome do item que deseja remover: ");
+                        scanner.nextLine();
+                        String nomeToRemove = scanner.nextLine();
+                        carrinhoDeCompras.remove(nomeToRemove);
+                        System.out.println("Item removido com sucesso!");
                         break;
                     case 3:
-                        try {
+                        if (carrinhoDeCompras.isEmpty()) {
+                            System.out.println("Não há itens no carrinho.");
+                        } else {
                             System.out.print("Qual item você deseja alterar (pelo nome)? ");
-                            scanner.nextLine(); // Consume newline
+                            scanner.nextLine();
                             String nomeToAlter = scanner.nextLine();
                             if (carrinhoDeCompras.containsKey(nomeToAlter)) {
                                 System.out.println("Item " + nomeToAlter + " selecionado!");
@@ -58,13 +52,17 @@ public class Main {
                                 if (escolhaAlteracao.equals("nome")) {
                                     System.out.print("Novo nome: ");
                                     String novoNome = scanner.nextLine();
-                                    carrinhoDeCompras.get(nomeToAlter).setNome(novoNome);
+                                    Item itemExistente = carrinhoDeCompras.get(nomeToAlter);
+                                    itemExistente.setNome(novoNome);
+                                    carrinhoDeCompras.remove(nomeToAlter); // Remova o item antigo
+                                    carrinhoDeCompras.put(novoNome, itemExistente); // Adicione o item com o novo nome
                                     System.out.println("O nome do item foi alterado para " + novoNome + " com sucesso!");
                                 } else if (escolhaAlteracao.equals("preco")) {
                                     try {
                                         System.out.print("Novo preço: ");
                                         float novoPreco = scanner.nextFloat();
-                                        carrinhoDeCompras.get(nomeToAlter).setPreco(novoPreco);
+                                        Item itemExistente = carrinhoDeCompras.get(nomeToAlter);
+                                        itemExistente.setPreco(novoPreco);
                                         System.out.println("O preço do item foi alterado para " + novoPreco + " com sucesso!");
                                     } catch (Exception e) {
                                         System.out.println("Não foi possível alterar o preço do item");
@@ -75,8 +73,6 @@ public class Main {
                             } else {
                                 System.out.println("Este item não existe");
                             }
-                        } catch (Exception e) {
-                            System.out.println("Digite um valor válido");
                         }
                         break;
                     case 4:
@@ -86,8 +82,8 @@ public class Main {
                             System.out.println("Carrinho de Compras:");
                             for (Map.Entry<String, Item> entry : carrinhoDeCompras.entrySet()) {
                                 String nomeItem = entry.getKey();
-                                Item item = entry.getValue();
-                                System.out.println("Nome: " + nomeItem + " | Preço: " + item.getPreco());
+                                Item itemExistente = entry.getValue();
+                                System.out.println("Nome: " + nomeItem + " | Preço: " + itemExistente.getPreco());
                             }
                         }
                         break;
@@ -100,20 +96,16 @@ public class Main {
                         }
                         break;
                     case 6:
-                        try {
-                            System.out.print("Digite o valor do desconto: ");
-                            float desconto = scanner.nextFloat();
-                            if (desconto >= 0 && desconto <= 100) {
-                                float totalAPagar = calcularTotalAPagar(carrinhoDeCompras);
-                                float valorDesconto = (desconto / 100) * totalAPagar;
-                                float totalComDesconto = totalAPagar - valorDesconto;
-                                System.out.println("Desconto aplicado: " + desconto + "%");
-                                System.out.println("Total a Pagar com Desconto: " + totalComDesconto);
-                            } else {
-                                System.out.println("O desconto deve ser um valor entre 0 e 100.");
-                            }
-                        } catch (Exception e) {
-                            System.out.println("Digite um valor válido");
+                        System.out.print("Digite o valor do desconto: ");
+                        float desconto = scanner.nextFloat();
+                        if (desconto >= 0 && desconto <= 100) {
+                            float totalAPagar = calcularTotalAPagar(carrinhoDeCompras);
+                            float valorDesconto = (desconto / 100) * totalAPagar;
+                            float totalComDesconto = totalAPagar - valorDesconto;
+                            System.out.println("Desconto aplicado: " + desconto + "%");
+                            System.out.println("Total a Pagar com Desconto: " + totalComDesconto);
+                        } else {
+                            System.out.println("O desconto deve ser um valor entre 0 e 100.");
                         }
                         break;
                     case 7:
@@ -124,7 +116,7 @@ public class Main {
                 }
             } catch (Exception e) {
                 System.out.println("Digite um valor válido");
-                scanner.nextLine(); // Consume newline
+                scanner.nextLine();
             }
         }
     }
