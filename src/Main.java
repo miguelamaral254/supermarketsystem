@@ -5,7 +5,7 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
-        Map<Integer, Item> carrinhoDeCompras = new HashMap<>();
+        Map<String, Item> carrinhoDeCompras = new HashMap<>();
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
@@ -27,7 +27,7 @@ public class Main {
                             System.out.print("preço do item: ");
                             float preco = scanner.nextFloat();
                             Item item = new Item(nome, preco);
-                            carrinhoDeCompras.put(carrinhoDeCompras.size(), item);
+                            carrinhoDeCompras.put(nome, item);
                             System.out.println(nome + " foi adicionado ao carrinho de compras!");
                         } catch (Exception e) {
                             System.out.println("Houve um erro e o item não foi adicionado.");
@@ -35,9 +35,10 @@ public class Main {
                         break;
                     case 2:
                         try {
-                            System.out.print("escolha o item que deseja remover: ");
-                            int itemToRemove = scanner.nextInt();
-                            carrinhoDeCompras.remove(itemToRemove);
+                            System.out.print("nome do item que deseja remover: ");
+                            scanner.nextLine(); // Consume newline
+                            String nomeToRemove = scanner.nextLine();
+                            carrinhoDeCompras.remove(nomeToRemove);
                             System.out.println("Item removido com sucesso!");
                         } catch (Exception e) {
                             System.out.println("Não foi possível remover o item pois ele não existe.");
@@ -45,23 +46,23 @@ public class Main {
                         break;
                     case 3:
                         try {
-                            System.out.print("qual item você deseja alterar? ");
-                            int itemToAlter = scanner.nextInt();
-                            if (carrinhoDeCompras.containsKey(itemToAlter)) {
-                                System.out.println("item " + itemToAlter + " selecionado!");
+                            System.out.print("qual item você deseja alterar (pelo nome)? ");
+                            scanner.nextLine(); // Consume newline
+                            String nomeToAlter = scanner.nextLine();
+                            if (carrinhoDeCompras.containsKey(nomeToAlter)) {
+                                System.out.println("item " + nomeToAlter + " selecionado!");
                                 System.out.print("você deseja mudar o nome ou o preço? ");
-                                scanner.nextLine(); // Consume newline
                                 String escolhaAlteracao = scanner.nextLine();
                                 if (escolhaAlteracao.equals("nome")) {
                                     System.out.print("novo nome: ");
                                     String novoNome = scanner.nextLine();
-                                    carrinhoDeCompras.get(itemToAlter).setNome(novoNome);
+                                    carrinhoDeCompras.get(nomeToAlter).setNome(novoNome);
                                     System.out.println("o nome do item foi alterado para " + novoNome + " com sucesso!");
                                 } else if (escolhaAlteracao.equals("preco")) {
                                     try {
                                         System.out.print("novo preço: ");
                                         float novoPreco = scanner.nextFloat();
-                                        carrinhoDeCompras.get(itemToAlter).setPreco(novoPreco);
+                                        carrinhoDeCompras.get(nomeToAlter).setPreco(novoPreco);
                                         System.out.println("o preço do item foi alterado para " + novoPreco + " com sucesso!");
                                     } catch (Exception e) {
                                         System.out.println("Não foi possível alterar o preço do item");
@@ -78,7 +79,7 @@ public class Main {
                         break;
                     case 4:
                         System.out.println("Carrinho de Compras:");
-                        for (Map.Entry<Integer, Item> entry : carrinhoDeCompras.entrySet()) {
+                        for (Map.Entry<String, Item> entry : carrinhoDeCompras.entrySet()) {
                             System.out.println(entry.getKey() + ": " + entry.getValue());
                         }
                         break;
