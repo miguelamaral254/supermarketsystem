@@ -24,7 +24,7 @@ public class Main {
                             System.out.print("nome do item: ");
                             scanner.nextLine(); // Consume newline
                             String nome = scanner.nextLine();
-                            System.out.print("preço do item: ");
+                            System.out.print("preço do item(em R$): ");
                             float preco = scanner.nextFloat();
                             Item item = new Item(nome, preco);
                             carrinhoDeCompras.put(nome, item);
@@ -80,7 +80,9 @@ public class Main {
                     case 4:
                         System.out.println("Carrinho de Compras:");
                         for (Map.Entry<String, Item> entry : carrinhoDeCompras.entrySet()) {
-                            System.out.println(entry.getKey() + ": " + entry.getValue());
+                            String nomeItem = entry.getKey();
+                            Item item = entry.getValue();
+                            System.out.println("Nome: " + nomeItem + " | Preço: " + item.getPreco());
                         }
                         break;
                     case 5:
@@ -130,3 +132,4 @@ class Item {
                 '}';
     }
 }
+
