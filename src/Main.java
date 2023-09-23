@@ -14,7 +14,8 @@ public class Main {
             System.out.println("2 - remover um item");
             System.out.println("3 - alterar um item");
             System.out.println("4 - visualizar seu carrinho de compras");
-            System.out.println("5 - sair");
+            System.out.println("5 - visualizar total a pagar");
+            System.out.println("6 - sair");
             System.out.println("----------------------------------------------");
             try {
                 int escolha = scanner.nextInt();
@@ -24,7 +25,7 @@ public class Main {
                             System.out.print("nome do item: ");
                             scanner.nextLine(); // Consume newline
                             String nome = scanner.nextLine();
-                            System.out.print("preço do item(em R$): ");
+                            System.out.print("preço do item: ");
                             float preco = scanner.nextFloat();
                             Item item = new Item(nome, preco);
                             carrinhoDeCompras.put(nome, item);
@@ -86,6 +87,10 @@ public class Main {
                         }
                         break;
                     case 5:
+                        float totalAPagar = calcularTotalAPagar(carrinhoDeCompras);
+                        System.out.println("Total a Pagar: " + totalAPagar);
+                        break;
+                    case 6:
                         scanner.close();
                         return;
                     default:
@@ -96,6 +101,14 @@ public class Main {
                 scanner.nextLine(); // Consume newline
             }
         }
+    }
+
+    private static float calcularTotalAPagar(Map<String, Item> carrinhoDeCompras) {
+        float total = 0;
+        for (Item item : carrinhoDeCompras.values()) {
+            total += item.getPreco();
+        }
+        return total;
     }
 }
 
@@ -132,4 +145,3 @@ class Item {
                 '}';
     }
 }
-
