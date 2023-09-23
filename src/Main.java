@@ -25,11 +25,16 @@ public class Main {
                         System.out.print("Nome do item: ");
                         scanner.nextLine();
                         String nome = scanner.nextLine();
-                        System.out.print("Preço do item: ");
-                        float preco = scanner.nextFloat();
-                        Item item = new Item(nome, preco);
-                        carrinhoDeCompras.put(nome, item);
-                        System.out.println(nome + " foi adicionado ao carrinho de compras!");
+
+                        if (carrinhoDeCompras.containsKey(nome)) {
+                            System.out.println("Item já adicionado na lista, escolha outro por gentileza.");
+                        } else {
+                            System.out.print("Preço do item(em R$): ");
+                            float preco = scanner.nextFloat();
+                            Item item = new Item(nome, preco);
+                            carrinhoDeCompras.put(nome, item);
+                            System.out.println(nome + " foi adicionado ao carrinho de compras!");
+                        }
                         break;
                     case 2:
                         System.out.print("Nome do item que deseja remover: ");
@@ -57,7 +62,7 @@ public class Main {
                                     carrinhoDeCompras.remove(nomeToAlter); // Remova o item antigo
                                     carrinhoDeCompras.put(novoNome, itemExistente); // Adicione o item com o novo nome
                                     System.out.println("O nome do item foi alterado para " + novoNome + " com sucesso!");
-                                } else if (escolhaAlteracao.equals("preco")) {
+                                } else if (escolhaAlteracao.equals("preco(R$)")) {
                                     try {
                                         System.out.print("Novo preço: ");
                                         float novoPreco = scanner.nextFloat();
@@ -153,13 +158,5 @@ class Item {
 
     public void setPreco(float preco) {
         this.preco = preco;
-    }
-
-    @Override
-    public String toString() {
-        return "Item{" +
-                "nome='" + nome + '\'' +
-                ", preco=" + preco +
-                '}';
     }
 }
