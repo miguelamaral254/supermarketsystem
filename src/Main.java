@@ -34,10 +34,19 @@ public class Main {
                             System.out.println("Item já adicionado na lista.");
                         } else {
                             System.out.print("Preço do item: ");
-                            float preco = scanner.nextFloat();
-                            Item item = new Item(nome, preco);
-                            carrinhoDeCompras.add(item);
-                            System.out.println(nome + " foi adicionado ao carrinho de compras!");
+                            float preco;
+
+                            // Verifica se o próximo valor inserido é um float válido
+                            if (scanner.hasNextFloat()) {
+                                preco = scanner.nextFloat();
+                                Item item = new Item(nome, preco);
+                                carrinhoDeCompras.add(item);
+                                System.out.println(nome + " foi adicionado ao carrinho de compras!");
+                            } else {
+                                System.out.println(
+                                        "Valor inválido. Certifique-se de inserir um número válido como preço.");
+                                scanner.nextLine(); // Limpar a entrada inválida
+                            }
                         }
 
                         break;
@@ -72,9 +81,9 @@ public class Main {
                             System.out.println("Itens no carrinho:");
                             for (int i = 0; i < carrinhoDeCompras.size(); i++) {
                                 Item currentItem = carrinhoDeCompras.get(i);
-                                System.out.println(proximoNumero + ": " + currentItem.getNome() + " - Preço: "
-                                        + currentItem.getPreco());
-                                proximoNumero++;
+                                int itemID = i + 1; // Usar o índice da lista como ID
+                                System.out.println(
+                                        itemID + ": " + currentItem.getNome() + " - Preço: " + currentItem.getPreco());
                             }
 
                             System.out.print("Qual item você deseja alterar (pela ordem na lista)? ");
@@ -82,13 +91,14 @@ public class Main {
                             if (itemToAlter >= 1 && itemToAlter <= carrinhoDeCompras.size()) {
                                 Item itemExistente = carrinhoDeCompras.get(itemToAlter - 1);
                                 System.out.println("Item " + itemExistente.getNome() + " selecionado!");
-                                System.out.print("Você deseja mudar o nome ou o preço? ");
-                                scanner.nextLine();
-                                String escolhaAlteracao = scanner.nextLine();
+                                System.out.println("Escolha uma opção:");
+                                System.out.println("1 - Alterar o nome");
+                                System.out.println("2 - Alterar o preço");
+                                int escolhaAlteracao = scanner.nextInt();
 
-                                if (escolhaAlteracao.equals("nome")) {
+                                if (escolhaAlteracao == 1) {
                                     System.out.print("Novo nome: ");
-                                    String novoNome = scanner.nextLine();
+                                    String novoNome = scanner.next();
 
                                     if (novoNome.isEmpty()) {
                                         System.out.println("Por favor, atribua um nome válido.");
@@ -97,15 +107,23 @@ public class Main {
                                         System.out.println(
                                                 "O nome do item foi alterado para " + novoNome + " com sucesso!");
                                     }
-                                } else if (escolhaAlteracao.equals("preço")) {
-                                    try {
-                                        System.out.print("Novo preço: ");
-                                        float novoPreco = scanner.nextFloat();
-                                        itemExistente.setPreco(novoPreco);
+                                } else if (escolhaAlteracao == 2) {
+                                    System.out.print("Novo preço: ");
+                                    String novoPrecoStr = scanner.next();
+
+                                    if (novoPrecoStr.matches("^\\d*\\.?\\d+$")) {
+                                        try {
+                                            float novoPreco = Float.parseFloat(novoPrecoStr);
+                                            itemExistente.setPreco(novoPreco);
+                                            System.out.println(
+                                                    "O preço do item foi alterado para " + novoPreco + " com sucesso!");
+                                        } catch (NumberFormatException e) {
+                                            System.out.println(
+                                                    "Valor inválido. Certifique-se de inserir um número válido como preço.");
+                                        }
+                                    } else {
                                         System.out.println(
-                                                "O preço do item foi alterado para " + novoPreco + " com sucesso!");
-                                    } catch (Exception e) {
-                                        System.out.println("Não foi possível alterar o preço do item");
+                                                "Valor inválido. Certifique-se de inserir um número válido como preço.");
                                     }
                                 } else {
                                     System.out.println("Opção inválida. Nenhum dado foi alterado.");
@@ -115,6 +133,7 @@ public class Main {
                             }
                         }
                         break;
+
                     case 4:
                         if (carrinhoDeCompras.isEmpty()) {
                             System.out.println("Ainda não há itens no carrinho.");
@@ -123,12 +142,13 @@ public class Main {
                             System.out.println("Carrinho de Compras:");
                             for (int i = 0; i < carrinhoDeCompras.size(); i++) {
                                 Item currentItem = carrinhoDeCompras.get(i);
-                                System.out.println(proximoNumero + ": " + currentItem.getNome() + " - Preço: "
-                                        + currentItem.getPreco());
-                                proximoNumero++;
+                                int itemID = i + 1; // Usar o índice da lista como ID
+                                System.out.println(
+                                        itemID + ": " + currentItem.getNome() + " - Preço: " + currentItem.getPreco());
                             }
                         }
                         break;
+
                     case 5:
                         if (carrinhoDeCompras.isEmpty()) {
                             System.out.println("Ainda não há itens no carrinho.");
