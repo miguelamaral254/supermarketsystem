@@ -208,6 +208,7 @@ public class Main {
                                     if (valorRecebido >= totalComDesconto) {
                                         float troco = valorRecebido - totalComDesconto;
                                         System.out.println("Troco: " + troco);
+                                        System.out.println("Pagamento realizado com sucesso!");
                                     } else {
                                         System.out.println("Valor insuficiente. O pagamento não foi concluído.");
                                     }
@@ -222,7 +223,7 @@ public class Main {
 
                                     if (escolhaCartao == 1) {
                                         System.out.println("Pagamento no valor de " + totalComDesconto
-                                                + " realizado com sucesso via débito.");
+                                                + " realizado com sucesso!.");
                                     } else if (escolhaCartao == 2) {
                                         System.out.print("Digite o número de parcelas desejadas: ");
                                         int parcelas = scanner.nextInt();
@@ -235,7 +236,7 @@ public class Main {
                                             int escolhaConfirmacao = scanner.nextInt();
 
                                             if (escolhaConfirmacao == 1) {
-                                                System.out.println("Pagamento confirmado.");
+                                                System.out.println("Pagamento realizado com sucesso!.");
                                             } else if (escolhaConfirmacao == 2) {
                                                 System.out.println("Retornando para opções de pagamento.");
                                             } else {
@@ -288,11 +289,14 @@ public class Main {
                             if (valorDesconto > 0) {
                                 System.out.println("Desconto aplicado: " + valorDesconto);
                             }
+
+                            // Definir pagamentoConfirmado como true para sair do loop
+                            pagamentoConfirmado = true;
                         }
                         break;
 
                     case 8:
-                        pagamentoConfirmado = true;
+                        pagamentoConfirmado = true; // Também sai do loop se a opção 8 for selecionada
                         break;
 
                     default:
