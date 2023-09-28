@@ -7,9 +7,10 @@ public class Main {
     public static void main(String[] args) {
         List<Item> carrinhoDeCompras = new ArrayList<>();
         Scanner scanner = new Scanner(System.in);
-        int proximoNumero = 1; // Variável para controlar o próximo número a ser exibido
+        int proximoNumero = 1;
+        boolean pagamentoConfirmado = false;
 
-        while (true) {
+        while (!pagamentoConfirmado) {
             System.out.println("----------------------------------------------");
             System.out.println("1 - Adicionar um item");
             System.out.println("2 - Remover um item");
@@ -20,12 +21,13 @@ public class Main {
             System.out.println("7 - Pagar");
             System.out.println("8 - Sair");
             System.out.println("----------------------------------------------");
+
             try {
                 int escolha = scanner.nextInt();
                 switch (escolha) {
                     case 1:
                         System.out.print("Nome do item: ");
-                        scanner.nextLine(); // Limpar a linha anterior
+                        scanner.nextLine();
                         String nome = scanner.nextLine();
 
                         if (nome.isEmpty()) {
@@ -36,7 +38,6 @@ public class Main {
                             System.out.print("Preço do item: ");
                             float preco;
 
-                            // Verifica se o próximo valor inserido é um float válido
                             if (scanner.hasNextFloat()) {
                                 preco = scanner.nextFloat();
                                 Item item = new Item(nome, preco);
@@ -45,7 +46,7 @@ public class Main {
                             } else {
                                 System.out.println(
                                         "Valor inválido. Certifique-se de inserir um número válido como preço.");
-                                scanner.nextLine(); // Limpar a entrada inválida
+                                scanner.nextLine();
                             }
                         }
 
@@ -54,7 +55,6 @@ public class Main {
                         if (carrinhoDeCompras.isEmpty()) {
                             System.out.println("Não há itens no carrinho.");
                         } else {
-                            // Mostrar a lista de itens
                             System.out.println("Itens no carrinho:");
                             for (int i = 0; i < carrinhoDeCompras.size(); i++) {
                                 Item currentItem = carrinhoDeCompras.get(i);
@@ -77,11 +77,10 @@ public class Main {
                         if (carrinhoDeCompras.isEmpty()) {
                             System.out.println("Não há itens no carrinho.");
                         } else {
-                            // Mostrar a lista de itens
                             System.out.println("Itens no carrinho:");
                             for (int i = 0; i < carrinhoDeCompras.size(); i++) {
                                 Item currentItem = carrinhoDeCompras.get(i);
-                                int itemID = i + 1; // Usar o índice da lista como ID
+                                int itemID = i + 1;
                                 System.out.println(
                                         itemID + ": " + currentItem.getNome() + " - Preço: " + currentItem.getPreco());
                             }
@@ -133,22 +132,19 @@ public class Main {
                             }
                         }
                         break;
-
                     case 4:
                         if (carrinhoDeCompras.isEmpty()) {
                             System.out.println("Ainda não há itens no carrinho.");
                         } else {
-                            // Mostrar a lista de itens
                             System.out.println("Carrinho de Compras:");
                             for (int i = 0; i < carrinhoDeCompras.size(); i++) {
                                 Item currentItem = carrinhoDeCompras.get(i);
-                                int itemID = i + 1; // Usar o índice da lista como ID
+                                int itemID = i + 1;
                                 System.out.println(
                                         itemID + ": " + currentItem.getNome() + " - Preço: " + currentItem.getPreco());
                             }
                         }
                         break;
-
                     case 5:
                         if (carrinhoDeCompras.isEmpty()) {
                             System.out.println("Ainda não há itens no carrinho.");
@@ -180,13 +176,15 @@ public class Main {
                             System.out.println("Ainda não há itens no carrinho.");
                         } else {
                             float totalAPagar = calcularTotalAPagar(carrinhoDeCompras);
-                            float totalComDesconto = totalAPagar; // Valor inicial é o total a pagar sem desconto
+                            float totalComDesconto = totalAPagar;
+                            float valorDesconto = 0;
 
-                            // Verifica se há desconto aplicado
                             if (totalAPagar < calcularTotalAPagar(carrinhoDeCompras)) {
-                                System.out.println("Desconto aplicado: " + (1 - (totalAPagar / calcularTotalAPagar(carrinhoDeCompras))) * 100 + "%");
-                                System.out.println("Total a Pagar com Desconto: " + totalAPagar);
+                                valorDesconto = (totalAPagar - calcularTotalAPagar(carrinhoDeCompras));
+                                totalComDesconto = totalAPagar;
                             }
+
+                            System.out.println("Total a Pagar: " + totalAPagar);
 
                             System.out.println("Escolha uma opção de pagamento:");
                             System.out.println("1 - Dinheiro");
@@ -196,7 +194,7 @@ public class Main {
                             int escolhaPagamento = scanner.nextInt();
 
                             switch (escolhaPagamento) {
-                                case 1: // Dinheiro
+                                case 1:
                                     System.out.print("Digite o valor recebido: ");
                                     float valorRecebido = scanner.nextFloat();
 
@@ -208,7 +206,7 @@ public class Main {
                                     }
                                     break;
 
-                                case 2: // Cartão
+                                case 2:
                                     System.out.println("Escolha uma opção de cartão:");
                                     System.out.println("1 - Débito");
                                     System.out.println("2 - Crédito");
@@ -216,7 +214,8 @@ public class Main {
                                     int escolhaCartao = scanner.nextInt();
 
                                     if (escolhaCartao == 1) {
-                                        System.out.println("Pagamento no valor de " + totalComDesconto + " realizado com sucesso via débito.");
+                                        System.out.println("Pagamento no valor de " + totalComDesconto
+                                                + " realizado com sucesso via débito.");
                                     } else if (escolhaCartao == 2) {
                                         System.out.print("Digite o número de parcelas desejadas: ");
                                         int parcelas = scanner.nextInt();
@@ -229,8 +228,6 @@ public class Main {
                                             int escolhaConfirmacao = scanner.nextInt();
 
                                             if (escolhaConfirmacao == 1) {
-                                                // Aqui você pode inserir a lógica para confirmar o pagamento
-                                                // por exemplo, atualizar o estado do pedido ou registrar a transação.
                                                 System.out.println("Pagamento confirmado.");
                                             } else if (escolhaConfirmacao == 2) {
                                                 System.out.println("Retornando para opções de pagamento.");
@@ -245,7 +242,7 @@ public class Main {
                                     }
                                     break;
 
-                                case 3: // Pix
+                                case 3:
                                     System.out.println("Escolha uma opção de Pix:");
                                     System.out.println("1 - Pagamento por QR CODE");
                                     System.out.println("2 - Pagamento por chave Pix");
@@ -253,7 +250,8 @@ public class Main {
                                     int escolhaPix = scanner.nextInt();
 
                                     if (escolhaPix == 1) {
-                                        System.out.println("Aproxime seu dispositivo do QR CODE para efetuar o pagamento.");
+                                        System.out.println(
+                                                "Aproxime seu dispositivo do QR CODE para efetuar o pagamento.");
                                     } else if (escolhaPix == 2) {
                                         System.out.println("Escolha uma opção de chave Pix:");
                                         System.out.println("1 - CNPJ 03.485.324/0001-55");
@@ -262,9 +260,11 @@ public class Main {
                                         int escolhaChavePix = scanner.nextInt();
 
                                         if (escolhaChavePix == 1) {
-                                            System.out.println("Chave Pix CNPJ selecionada. Realize o pagamento pelo aplicativo do seu banco.");
+                                            System.out.println(
+                                                    "Chave Pix CNPJ selecionada. Realize o pagamento pelo aplicativo do seu banco.");
                                         } else if (escolhaChavePix == 2) {
-                                            System.out.println("Chave Pix número de telefone selecionada. Realize o pagamento pelo aplicativo do seu banco.");
+                                            System.out.println(
+                                                    "Chave Pix número de telefone selecionada. Realize o pagamento pelo aplicativo do seu banco.");
                                         } else {
                                             System.out.println("Opção de chave Pix inválida.");
                                         }
@@ -277,12 +277,16 @@ public class Main {
                                     System.out.println("Opção de pagamento inválida.");
                                     break;
                             }
+
+                            if (valorDesconto > 0) {
+                                System.out.println("Desconto aplicado: " + valorDesconto);
+                            }
                         }
                         break;
 
                     case 8:
-                        scanner.close();
-                        return;
+                        pagamentoConfirmado = true;
+                        break;
                     default:
                         System.out.println("Escolha uma opção válida");
                 }
@@ -291,13 +295,14 @@ public class Main {
                 scanner.nextLine();
             }
         }
+
+        scanner.close();
     }
 
     private static boolean itemExiste(List<Item> carrinhoDeCompras, String nome) {
         for (Item item : carrinhoDeCompras) {
             if (item.getNome().equals(nome)) {
                 return true;
-
             }
         }
         return false;
