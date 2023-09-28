@@ -9,6 +9,7 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         int proximoNumero = 1;
         boolean pagamentoConfirmado = false;
+        float totalAPagar = 0;
 
         while (!pagamentoConfirmado) {
             System.out.println("----------------------------------------------");
@@ -43,14 +44,15 @@ public class Main {
                                 Item item = new Item(nome, preco);
                                 carrinhoDeCompras.add(item);
                                 System.out.println(nome + " foi adicionado ao carrinho de compras!");
+                                totalAPagar += preco;
                             } else {
                                 System.out.println(
                                         "Valor inválido. Certifique-se de inserir um número válido como preço.");
                                 scanner.nextLine();
                             }
                         }
-
                         break;
+
                     case 2:
                         if (carrinhoDeCompras.isEmpty()) {
                             System.out.println("Não há itens no carrinho.");
@@ -66,13 +68,15 @@ public class Main {
                             System.out.print("Qual item você deseja remover (pela ordem na lista)? ");
                             int itemToRemove = scanner.nextInt();
                             if (itemToRemove >= 1 && itemToRemove <= carrinhoDeCompras.size()) {
-                                carrinhoDeCompras.remove(itemToRemove - 1);
+                                Item itemRemovido = carrinhoDeCompras.remove(itemToRemove - 1);
                                 System.out.println("Item removido com sucesso!");
+                                totalAPagar -= itemRemovido.getPreco();
                             } else {
                                 System.out.println("Número de item inválido.");
                             }
                         }
                         break;
+
                     case 3:
                         if (carrinhoDeCompras.isEmpty()) {
                             System.out.println("Não há itens no carrinho.");
@@ -113,7 +117,9 @@ public class Main {
                                     if (novoPrecoStr.matches("^\\d*\\.?\\d+$")) {
                                         try {
                                             float novoPreco = Float.parseFloat(novoPrecoStr);
+                                            totalAPagar -= itemExistente.getPreco();
                                             itemExistente.setPreco(novoPreco);
+                                            totalAPagar += novoPreco;
                                             System.out.println(
                                                     "O preço do item foi alterado para " + novoPreco + " com sucesso!");
                                         } catch (NumberFormatException e) {
@@ -132,6 +138,7 @@ public class Main {
                             }
                         }
                         break;
+
                     case 4:
                         if (carrinhoDeCompras.isEmpty()) {
                             System.out.println("Ainda não há itens no carrinho.");
@@ -145,14 +152,15 @@ public class Main {
                             }
                         }
                         break;
+
                     case 5:
                         if (carrinhoDeCompras.isEmpty()) {
                             System.out.println("Ainda não há itens no carrinho.");
                         } else {
-                            float totalAPagar = calcularTotalAPagar(carrinhoDeCompras);
                             System.out.println("Total a Pagar: " + totalAPagar);
                         }
                         break;
+
                     case 6:
                         if (carrinhoDeCompras.isEmpty()) {
                             System.out.println("Ainda não há itens no carrinho.");
@@ -161,26 +169,25 @@ public class Main {
                             float desconto = scanner.nextFloat();
 
                             if (desconto >= 0 && desconto <= 100) {
-                                float totalAPagar = calcularTotalAPagar(carrinhoDeCompras);
                                 float valorDesconto = (desconto / 100) * totalAPagar;
-                                float totalComDesconto = totalAPagar - valorDesconto;
+                                totalAPagar -= valorDesconto;
                                 System.out.println("Desconto aplicado: " + desconto + "%");
-                                System.out.println("Total a Pagar com Desconto: " + totalComDesconto);
+                                System.out.println("Total a Pagar com Desconto: " + totalAPagar);
                             } else {
                                 System.out.println("O desconto deve ser um valor entre 0 e 100.");
                             }
                         }
                         break;
+
                     case 7:
                         if (carrinhoDeCompras.isEmpty()) {
                             System.out.println("Ainda não há itens no carrinho.");
                         } else {
-                            float totalAPagar = calcularTotalAPagar(carrinhoDeCompras);
                             float totalComDesconto = totalAPagar;
                             float valorDesconto = 0;
 
                             if (totalAPagar < calcularTotalAPagar(carrinhoDeCompras)) {
-                                valorDesconto = (totalAPagar - calcularTotalAPagar(carrinhoDeCompras));
+                                valorDesconto = (calcularTotalAPagar(carrinhoDeCompras) - totalAPagar);
                                 totalComDesconto = totalAPagar;
                             }
 
@@ -287,6 +294,7 @@ public class Main {
                     case 8:
                         pagamentoConfirmado = true;
                         break;
+
                     default:
                         System.out.println("Escolha uma opção válida");
                 }
