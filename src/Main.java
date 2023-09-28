@@ -1,4 +1,3 @@
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -18,7 +17,8 @@ public class Main {
             System.out.println("4 - Visualizar seu carrinho de compras");
             System.out.println("5 - Visualizar total a pagar");
             System.out.println("6 - Aplicar desconto");
-            System.out.println("7 - Sair");
+            System.out.println("7 - Pagar");
+            System.out.println("8 - Sair");
             System.out.println("----------------------------------------------");
             try {
                 int escolha = scanner.nextInt();
@@ -176,6 +176,111 @@ public class Main {
                         }
                         break;
                     case 7:
+                        if (carrinhoDeCompras.isEmpty()) {
+                            System.out.println("Ainda não há itens no carrinho.");
+                        } else {
+                            float totalAPagar = calcularTotalAPagar(carrinhoDeCompras);
+                            float totalComDesconto = totalAPagar; // Valor inicial é o total a pagar sem desconto
+
+                            // Verifica se há desconto aplicado
+                            if (totalAPagar < calcularTotalAPagar(carrinhoDeCompras)) {
+                                System.out.println("Desconto aplicado: " + (1 - (totalAPagar / calcularTotalAPagar(carrinhoDeCompras))) * 100 + "%");
+                                System.out.println("Total a Pagar com Desconto: " + totalAPagar);
+                            }
+
+                            System.out.println("Escolha uma opção de pagamento:");
+                            System.out.println("1 - Dinheiro");
+                            System.out.println("2 - Cartão");
+                            System.out.println("3 - Pix");
+
+                            int escolhaPagamento = scanner.nextInt();
+
+                            switch (escolhaPagamento) {
+                                case 1: // Dinheiro
+                                    System.out.print("Digite o valor recebido: ");
+                                    float valorRecebido = scanner.nextFloat();
+
+                                    if (valorRecebido >= totalComDesconto) {
+                                        float troco = valorRecebido - totalComDesconto;
+                                        System.out.println("Troco: " + troco);
+                                    } else {
+                                        System.out.println("Valor insuficiente. O pagamento não foi concluído.");
+                                    }
+                                    break;
+
+                                case 2: // Cartão
+                                    System.out.println("Escolha uma opção de cartão:");
+                                    System.out.println("1 - Débito");
+                                    System.out.println("2 - Crédito");
+
+                                    int escolhaCartao = scanner.nextInt();
+
+                                    if (escolhaCartao == 1) {
+                                        System.out.println("Pagamento no valor de " + totalComDesconto + " realizado com sucesso via débito.");
+                                    } else if (escolhaCartao == 2) {
+                                        System.out.print("Digite o número de parcelas desejadas: ");
+                                        int parcelas = scanner.nextInt();
+
+                                        if (parcelas >= 1) {
+                                            float valorParcela = totalComDesconto / parcelas;
+                                            System.out.println("Pagamento em " + parcelas + "x de R$ " + valorParcela);
+                                            System.out.println("1 - Confirmar valor");
+                                            System.out.println("2 - Retornar para opções de pagamento");
+                                            int escolhaConfirmacao = scanner.nextInt();
+
+                                            if (escolhaConfirmacao == 1) {
+                                                // Aqui você pode inserir a lógica para confirmar o pagamento
+                                                // por exemplo, atualizar o estado do pedido ou registrar a transação.
+                                                System.out.println("Pagamento confirmado.");
+                                            } else if (escolhaConfirmacao == 2) {
+                                                System.out.println("Retornando para opções de pagamento.");
+                                            } else {
+                                                System.out.println("Opção inválida. Pagamento não confirmado.");
+                                            }
+                                        } else {
+                                            System.out.println("Número de parcelas inválido.");
+                                        }
+                                    } else {
+                                        System.out.println("Opção de cartão inválida.");
+                                    }
+                                    break;
+
+                                case 3: // Pix
+                                    System.out.println("Escolha uma opção de Pix:");
+                                    System.out.println("1 - Pagamento por QR CODE");
+                                    System.out.println("2 - Pagamento por chave Pix");
+
+                                    int escolhaPix = scanner.nextInt();
+
+                                    if (escolhaPix == 1) {
+                                        System.out.println("Aproxime seu dispositivo do QR CODE para efetuar o pagamento.");
+                                    } else if (escolhaPix == 2) {
+                                        System.out.println("Escolha uma opção de chave Pix:");
+                                        System.out.println("1 - CNPJ 03.485.324/0001-55");
+                                        System.out.println("2 - Número de telefone 81 3413-6728");
+
+                                        int escolhaChavePix = scanner.nextInt();
+
+                                        if (escolhaChavePix == 1) {
+                                            System.out.println("Chave Pix CNPJ selecionada. Realize o pagamento pelo aplicativo do seu banco.");
+                                        } else if (escolhaChavePix == 2) {
+                                            System.out.println("Chave Pix número de telefone selecionada. Realize o pagamento pelo aplicativo do seu banco.");
+                                        } else {
+                                            System.out.println("Opção de chave Pix inválida.");
+                                        }
+                                    } else {
+                                        System.out.println("Opção de Pix inválida.");
+                                    }
+                                    break;
+
+                                default:
+                                    System.out.println("Opção de pagamento inválida.");
+                                    break;
+                            }
+                        }
+                        break;
+
+                    case 8:
                         scanner.close();
                         return;
                     default:
