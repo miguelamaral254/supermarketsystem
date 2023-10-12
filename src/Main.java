@@ -7,9 +7,13 @@ public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         LoginScreen loginScreen = new LoginScreen();
+        AdminScreen adminScreen = new AdminScreen();
 
         if (loginScreen.realizarLogin(scanner)) {
-            List<Item> carrinhoDeCompras = new ArrayList<>();
+            if (loginScreen.isUsuarioAdmin()) {
+                adminScreen.exibirMenuAdministrador(scanner);
+            } else {
+                List<Item> carrinhoDeCompras = new ArrayList<>();
             int proximoNumero = 1;
             boolean pagamentoConfirmado = false;
             float totalAPagar = 0;
@@ -317,6 +321,9 @@ public class Main {
 
             scanner.close();
 
+            }
+            
+
         } else {
             System.out.println("Programa encerrado devido ao login malsucedido.");
         }
@@ -364,39 +371,6 @@ class Item {
 
     public void setPreco(float preco) {
         this.preco = preco;
-    }
-}
-
-class LoginScreen {
-    private String username = "oper";
-    private String password = "1234";
-
-    public boolean realizarLogin(Scanner scanner) {
-        int tentativas = 3;
-
-        while (tentativas > 0) {
-            System.out.println("Por favor, faça o login.");
-            System.out.print("Nome de usuário: ");
-            String inputUsuario = scanner.nextLine();
-
-            System.out.print("Senha: ");
-            String inputSenha = scanner.nextLine();
-
-            if (inputUsuario.equals(username) && inputSenha.equals(password)) {
-                System.out.println("Login bem-sucedido. Bem-vindo!");
-                return true;
-            } else {
-                System.out.println("Login falhou. Tente novamente.");
-                tentativas--;
-                if (tentativas > 0) {
-                    System.out.println("Tentativas restantes: " + tentativas);
-                } else {
-                    System.out.println("Número máximo de tentativas excedido. Saindo do programa.");
-                    return false;
-                }
-            }
-        }
-        return false;
     }
 }
 
