@@ -8,12 +8,15 @@ public class LoginScreen {
         int tentativas = 3;
 
         while (tentativas > 0) {
+            System.out.println("----------------------------");
             System.out.println("Por favor, faça o login.");
+            System.out.println("----------------------------");
             System.out.print("Nome de usuário: ");
             String inputUsuario = scanner.nextLine();
 
             System.out.print("Senha: ");
             String inputSenha = scanner.nextLine();
+            System.out.println("----------------------------------------------");
 
             if (inputUsuario.equals(username) && inputSenha.equals(password)) {
                 System.out.println("Login bem-sucedido. Bem-vindo!");
