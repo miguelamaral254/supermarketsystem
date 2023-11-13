@@ -1,3 +1,4 @@
+package screens;
 import java.util.Scanner;
 
 public class AdminScreen {

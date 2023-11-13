@@ -1,8 +1,16 @@
+package screens;
 import java.util.Scanner;
 
 public class LoginScreen {
+    private boolean userAdmin = false;
+    private String usernameAdmin = "admin";
+    private String passwordAdmin = "admin";
     private String username = "oper";
     private String password = "1234";
+
+    public boolean isUsuarioAdmin() {
+        return userAdmin;
+    }
 
     public boolean realizarLogin(Scanner scanner) {
         int tentativas = 3;
@@ -18,7 +26,11 @@ public class LoginScreen {
             String inputSenha = scanner.nextLine();
             System.out.println("----------------------------------------------");
 
-            if (inputUsuario.equals(username) && inputSenha.equals(password)) {
+            if (inputUsuario.equals(usernameAdmin) && inputSenha.equals(passwordAdmin)) {
+                System.out.println("Login de administrador bem-sucedido. Seja bem-vindo!");
+                userAdmin = true; 
+                return true;
+            } else if (inputUsuario.equals(username) && inputSenha.equals(password)) {
                 System.out.println("Login bem-sucedido. Bem-vindo!");
                 return true;
             } else {
@@ -32,10 +44,6 @@ public class LoginScreen {
                 }
             }
         }
-        return false;
-    }
-
-    public boolean isUsuarioAdmin() {
         return false;
     }
 }
