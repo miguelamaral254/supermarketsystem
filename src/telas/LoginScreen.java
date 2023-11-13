@@ -1,4 +1,4 @@
-package screens;
+package telas;
 
 import java.util.HashMap;
 import java.util.Map;

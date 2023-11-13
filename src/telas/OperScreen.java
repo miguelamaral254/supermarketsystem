@@ -1,4 +1,4 @@
-package screens;
+package telas;
 
 import item.Item;
 import produto.Produto;

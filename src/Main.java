@@ -1,7 +1,8 @@
 import java.util.Scanner;
-import screens.AdminScreen;
-import screens.LoginScreen;
-import screens.OperScreen;
+
+import telas.AdminScreen;
+import telas.LoginScreen;
+import telas.OperScreen;
 
 public class Main {
     public static void main(String[] args) {
