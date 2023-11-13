@@ -149,8 +149,8 @@ public class OperScreen {
                                     float valorRecebido = scanner.nextFloat();
 
                                     if (valorRecebido >= totalComDesconto) {
-                                        float troco = valorRecebido - totalComDesconto;
-                                        System.out.println("Troco: " + troco);
+                                        float troco = valorRecebido - totalComDesconto; 
+                                        System.out.printf("Troco: R$ %.2f%n",troco);
                                         System.out.println("Pagamento realizado com sucesso!");
                                     } else {
                                         System.out.println("Valor insuficiente. O pagamento não foi concluído.");
