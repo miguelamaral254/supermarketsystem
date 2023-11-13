@@ -54,29 +54,31 @@ public class OperScreen {
                         adicionarItemAoCarrinho(carrinhoDeCompras, codigoItem);
                         break;
 
-                    case 2:
+                        case 2:
                         if (carrinhoDeCompras.isEmpty()) {
                             System.out.println("Não há itens no carrinho.");
                         } else {
                             System.out.println("Itens no carrinho:");
                             for (int i = 0; i < carrinhoDeCompras.size(); i++) {
                                 Item currentItem = carrinhoDeCompras.get(i);
-                                System.out.println(proximoNumero + ": " + currentItem.getNome() + " - Preço: "
+                                int itemID = i + 1;
+                                System.out.println(itemID + ": " + currentItem.getNome() + " - Preço: "
                                         + currentItem.getPreco());
-                                proximoNumero++;
                             }
-
-                            System.out.print("Qual item você deseja remover (pela ordem na lista)? ");
+                    
+                            System.out.print("Qual item você deseja remover (pelo número na lista)? ");
                             int itemToRemove = scanner.nextInt();
+                    
                             if (itemToRemove >= 1 && itemToRemove <= carrinhoDeCompras.size()) {
                                 Item itemRemovido = carrinhoDeCompras.remove(itemToRemove - 1);
                                 System.out.println("Item removido com sucesso!");
                                 totalAPagar -= itemRemovido.getPreco();
                             } else {
-                                System.out.println("Número de item inválido.");
+                                System.out.println("Número de item inválido ou fora de ordem.");
                             }
                         }
                         break;
+                    
 
                     case 3:
                         if (carrinhoDeCompras.isEmpty()) {
