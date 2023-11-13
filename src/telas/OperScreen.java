@@ -48,13 +48,16 @@ public class OperScreen {
             try {
                 int escolha = scanner.nextInt();
                 switch (escolha) {
+
                     case 1:
                         System.out.print("Digite o código do item desejado: ");
                         String codigoItem = scanner.next();
-                        adicionarItemAoCarrinho(carrinhoDeCompras, codigoItem);
+                        System.out.print("Digite a quantidade desejada: ");
+                        int quantidade = scanner.nextInt();
+                        adicionarItemAoCarrinho(carrinhoDeCompras, codigoItem, quantidade);
                         break;
 
-                        case 2:
+                    case 2:
                         if (carrinhoDeCompras.isEmpty()) {
                             System.out.println("Não há itens no carrinho.");
                         } else {
@@ -65,10 +68,10 @@ public class OperScreen {
                                 System.out.println(itemID + ": " + currentItem.getNome() + " - Preço: "
                                         + currentItem.getPreco());
                             }
-                    
+
                             System.out.print("Qual item você deseja remover (pelo número na lista)? ");
                             int itemToRemove = scanner.nextInt();
-                    
+
                             if (itemToRemove >= 1 && itemToRemove <= carrinhoDeCompras.size()) {
                                 Item itemRemovido = carrinhoDeCompras.remove(itemToRemove - 1);
                                 System.out.println("Item removido com sucesso!");
@@ -78,7 +81,6 @@ public class OperScreen {
                             }
                         }
                         break;
-                    
 
                     case 3:
                         if (carrinhoDeCompras.isEmpty()) {
@@ -261,7 +263,7 @@ public class OperScreen {
         return total;
     }
 
-    private void adicionarItemAoCarrinho(List<Item> carrinhoDeCompras, String codigoItem) {
+    private void adicionarItemAoCarrinho(List<Item> carrinhoDeCompras, String codigoItem, int quantidade) {
         Produto produtoSelecionado = null;
 
         for (Produto produto : listaProdutos) {
@@ -271,10 +273,12 @@ public class OperScreen {
             }
         }
 
-        if (produtoSelecionado != null && produtoSelecionado.getQuantidadeDisponivel() > 0) {
-            Item item = new Item(produtoSelecionado.getNome(), produtoSelecionado.getPreco());
-            carrinhoDeCompras.add(item);
-            produtoSelecionado.decrementarQuantidade();
+        if (produtoSelecionado != null && produtoSelecionado.getQuantidadeDisponivel() >= quantidade) {
+            for (int i = 0; i < quantidade; i++) {
+                Item item = new Item(produtoSelecionado.getNome(), produtoSelecionado.getPreco());
+                carrinhoDeCompras.add(item);
+                produtoSelecionado.decrementarQuantidade();
+            }
 
             float novoTotalAPagar = 0;
             for (Item i : carrinhoDeCompras) {
@@ -282,9 +286,11 @@ public class OperScreen {
             }
             totalAPagar = novoTotalAPagar;
 
-            System.out.println(item.getNome() + " foi adicionado ao carrinho de compras!");
+            System.out.println(quantidade + " " + produtoSelecionado.getNome()
+                    + "(s) foi(foram) adicionado(s) ao carrinho de compras!");
         } else {
-            System.out.println("Código de item inválido ou sem estoque disponível.");
+            System.out.println(
+                    "Código de item inválido, sem estoque disponível ou quantidade solicitada excede o estoque.");
         }
     }
 }

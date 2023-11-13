@@ -107,6 +107,7 @@ public class ProdutoList {
         produtos.add(new Produto("098", "Difusor de Ambiente", 12.50, 10));
         produtos.add(new Produto("099", "Aromatizador de Roupas", 6.99, 15));
         produtos.add(new Produto("100", "Café Expresso", 9.99, 20));
+        produtos.add(new Produto("101", "Monster", 9.99, 50));
 
         return produtos;
     }
