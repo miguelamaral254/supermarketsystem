@@ -13,9 +13,9 @@ public class LoginScreen {
         // Adicione os pares de nome de usuário, senha e nome real desejados
         userCredentials.put("admin", new UserInfo("admin", "admin", "Administrador"));
         userCredentials.put("oper", new UserInfo("oper", "1234", "Operador"));
-        userCredentials.put("miguelamaral", new UserInfo("miguelamaral", "senhaMiguel", "Miguel"));
-        userCredentials.put("joaog", new UserInfo("joaog", "senhaJoao", "João"));
-        userCredentials.put("weslleysantana", new UserInfo("weslleysantana", "senhaWeslley", "Weslley"));
+        userCredentials.put("miguelamaral", new UserInfo("miguelamaral", "senhaMiguel", "Miguel Amaral"));
+        userCredentials.put("joaog", new UserInfo("joaopedro", "senhaJoao", "João Pedro"));
+        userCredentials.put("weslleysantana", new UserInfo("weslleysantana", "senhaWeslley", "Weslley Santana"));
     }
 
     public boolean isUsuarioAdmin() {
