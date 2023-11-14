@@ -173,8 +173,8 @@ public class OperScreen {
 
                                         if (parcelas >= 1) {
                                             float valorParcela = totalComDesconto / parcelas;
-                                            System.out.println(
-                                                    "Pagamento em " + parcelas + "x de R$ " + valorParcela);
+                                            System.out.printf(
+                                                    "Pagamento em " + parcelas + "x de R$ %.2f%n",valorParcela);
                                             System.out.println("1 - Confirmar valor");
                                             System.out.println("2 - Retornar para opções de pagamento");
                                             int escolhaConfirmacao = scanner.nextInt();
@@ -231,7 +231,7 @@ public class OperScreen {
                             }
 
                             if (valorDesconto > 0) {
-                                System.out.println("Desconto aplicado: " + valorDesconto);
+                                System.out.printf("Desconto aplicado de %.2f%n",valorDesconto);
                             }
 
                             // Sair do loop
